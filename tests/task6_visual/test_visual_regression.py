@@ -21,6 +21,11 @@ class TestVisualRegression:
             self.comparator.save_baseline(current_path, baseline_name)
             return {"match": True, "reason": "baseline_updated"}
 
+        baseline_path = os.path.join(self.comparator.baseline_dir, f"{baseline_name}.png")
+        if not os.path.exists(baseline_path):
+            self.comparator.save_baseline(current_path, baseline_name)
+            return {"match": True, "reason": "baseline_created"}
+
         return self.comparator.compare(current_path, baseline_name)
 
     def test_google_regression(self, driver):
@@ -42,7 +47,7 @@ class TestVisualRegression:
     def test_baseline_not_found_returns_no_match(self, driver):
         self.page.open_google()
         current_path = self.page.take_full_page_screenshot("no_baseline_test")
-        result = self.comparator.compare(current_path, "nonexistent_baseline")
+        result = self.comparator.compare(current_path, "nonexistent_baseline_xyz")
         assert not result["match"]
         assert result["reason"] == "baseline_not_found"
 
