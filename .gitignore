@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+venv/
+screenshots/
+reports/
+baselines/
+diffs/
+.DS_Store
+*.png
